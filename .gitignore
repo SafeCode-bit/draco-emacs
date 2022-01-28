@@ -1,0 +1,15 @@
+/.cache/
+/.log/
+/.lsp-session-v1
+/App.jsx
+/Emacs.jsx
+/auto-save-list/
+/elpa/
+/eshell/
+/index.html
+/init.js
+/recentf
+/style.css
+/transient/
+/.lsp-eslint-choices
+/Emacs.js
