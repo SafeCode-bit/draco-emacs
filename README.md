@@ -1,5 +1,5 @@
 # Configurando emacs en español #
-En este repositorio se encuentra todos los archivos de configuración de la [https://www.youtube.com/channel/UCB_H97JD-GwUNf0eZurvPtw] [serie de videos de youtube] del canal de **draco emacs**
+En este repositorio se encuentra todos los archivos de configuración de la [serie de videos de youtube](https://www.youtube.com/channel/UCB_H97JD-GwUNf0eZurvPtw)  del canal de **draco emacs**
 
 ## Draco emacs ##
 
