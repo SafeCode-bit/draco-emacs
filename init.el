@@ -46,17 +46,12 @@
   (require 'use-package)
   (setq use-package-always-ensure t)
 
-(use-package keycast
+(use-package command-log-mode
+  :ensure t
   :config
-
-  (define-minor-mode keycast-mode
-    "Show current command and its key binding in the mode line."
-    :global t
-    (if keycast-mode
-        (add-hook 'pre-command-hook 'keycast--update t)
-      (remove-hook 'pre-command-hook 'keycast--update)))
-  (add-to-list 'global-mode-string '("" mode-line-keycast " "))
-  (keycast-mode))
+  (global-command-log-mode t)
+  :init
+  (add-hook 'after-init-hook 'clm/open-command-log-buffer))
 
 (use-package ivy
   ;;      :diminish
@@ -132,12 +127,12 @@
   :custom					;
   (org-ellipsis " ▼")
   (org-hide-emphasis-markers t)
+  (org-src-preserve-indentation nil)
   :config
   (setq org-cycle-separator-lines 2
-	org-src-fontify-natively t
-	org-src-tab-acts-natively t
-	org-src-preserve-indentation nil
-	))
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        ))
 
 (use-package undo-tree
     :config
@@ -257,12 +252,17 @@
 
 (use-package blamer
   :ensure t
-  :hook ((prog-mode org-mode) . blamer-mode )
+  :hook ((prog-mode org-mode) . blamer-mode)
   :custom
   (blamer-min-offset 5)
   :config
   (setq blamer-idle-time 0.3
-        blamer-uncommitted-changes-message "NO COMMITTED"))
+        blamer-uncommitted-changes-message "NO COMMITTED")
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                   :background nil
+                   :height 115
+                   :italic t))))
 
 (use-package prettier
   :ensure t
