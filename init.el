@@ -127,12 +127,11 @@
   :custom					;
   (org-ellipsis " ▼")
   (org-hide-emphasis-markers t)
-  (org-src-preserve-indentation nil)
   :config
   (setq org-cycle-separator-lines 2
         org-src-fontify-natively t
         org-src-tab-acts-natively t
-        ))
+        org-src-preserve-indentation nil))
 
 (use-package undo-tree
     :config
@@ -335,3 +334,35 @@
   (setq js2-mode-show-strict-warnings t)
   (setq js2-strict-inconsistent-return-warning t)
   (setq js2-strict-missing-semi-warning t))
+
+(use-package paren
+  :init
+  (show-paren-mode 1)
+  :config
+  (setq show-paren-style 'parenthesses)
+  :custom-face
+  (show-paren-match ((t(:background "none" :foreground "red")))))
+
+(use-package elec-pair
+  :hook ((prog-mode org-mode) . electric-pair-mode)
+  :config
+  (setq electric-pair-pairs '(
+                              (?\{ . ?\})
+                              (?\` . ?\`)
+                              (?\[ . ?\])
+                              (?\< . ?\>)
+                              (?\' . ?\'))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(drag-stuff yasnippet use-package undo-tree rjsx-mode prettier magit lsp-mode keycast ivy-posframe hydra git-gutter flycheck emmet-mode doom-themes doom-modeline counsel company-box command-log-mode blamer ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 115 :italic t)))
+ '(show-paren-match ((t (:background "none" :foreground "red")))))

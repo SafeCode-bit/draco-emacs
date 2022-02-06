@@ -451,3 +451,19 @@
                                 (?\< . ?\>)
                                 (?\' . ?\'))))
 #+end_src
+
+
+* drag stuff
+#+begin_src emacs-lisp :tangle ./init.el
+  (use-package drag-stuff
+    :ensure t
+    :hook ((prog-mode org-mode) . drag-stuff-mode )
+    :bind
+    ("C-M-j" . drag-stuff-down)
+    ("C-M-k" . drag-stuff-up))
+#+end_src
+* delete selection
+#+begin_src emacs-lisp :tangle ./init.el
+(use-package delsel
+  :hook (after-init . delete-selection-mode))
+#+end_src
