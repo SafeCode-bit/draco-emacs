@@ -258,17 +258,11 @@
 (use-package blamer
   :ensure t
   :hook ((prog-mode org-mode) . blamer-mode )
+  :custom
+  (blamer-min-offset 5)
   :config
   (setq blamer-idle-time 0.3
-        blamer-min-offset 20
-        blamer-max-commit-message-length 40
-        blamer-uncommitted-changes-message "NO COMMITTED"
-        blamer-view 'overlay-right)
-  :custom-face
-  (blamer-face ((t (
-                    :foreground "firebrick2"
-                    :slant italic
-                    :height 0.8)))))
+        blamer-uncommitted-changes-message "NO COMMITTED"))
 
 (use-package prettier
   :ensure t
