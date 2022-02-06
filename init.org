@@ -424,3 +424,30 @@
     (setq js2-strict-inconsistent-return-warning t)
     (setq js2-strict-missing-semi-warning t))
 #+end_src
+
+
+
+* edit code
+** paren match
+- en Emacs 28 biene por defecto activado
+#+begin_src emacs-lisp
+  (use-package paren
+    :init
+    (show-paren-mode 1)
+    :config
+    (setq show-paren-style 'parenthesses)
+    :custom-face
+    (show-paren-match ((t(:background "none" :foreground "red")))))
+#+end_src
+** insert pair
+#+begin_src emacs-lisp
+  (use-package elec-pair
+    :hook ((prog-mode org-mode) . electric-pair-mode)
+    :config
+    (setq electric-pair-pairs '(
+                                (?\{ . ?\})
+                                (?\` . ?\`)
+                                (?\[ . ?\])
+                                (?\< . ?\>)
+                                (?\' . ?\'))))
+#+end_src
