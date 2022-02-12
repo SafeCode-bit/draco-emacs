@@ -3,10 +3,6 @@
 			 ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
-(setq make-backup-files nil
-      auto-save-default nil
-      create-lockfiles nil)
-
 (setq frame-title-format nil)
 ;; Question
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -43,8 +39,7 @@
 ;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-  (require 'use-package)
-  (setq use-package-always-ensure t)
+(require 'use-package)
 
 (use-package command-log-mode
   :ensure t
@@ -352,17 +347,27 @@
                               (?\[ . ?\])
                               (?\< . ?\>)
                               (?\' . ?\'))))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(drag-stuff yasnippet use-package undo-tree rjsx-mode prettier magit lsp-mode keycast ivy-posframe hydra git-gutter flycheck emmet-mode doom-themes doom-modeline counsel company-box command-log-mode blamer ace-window)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(blamer-face ((t :foreground "#7a88cf" :background nil :height 115 :italic t)))
- '(show-paren-match ((t (:background "none" :foreground "red")))))
+
+(use-package drag-stuff
+  :ensure t
+  :hook ((prog-mode org-mode) . drag-stuff-mode )
+  :bind
+  ("C-M-j" . drag-stuff-down)
+  ("C-M-k" . drag-stuff-up))
+
+(use-package delsel
+  :hook (after-init . delete-selection-mode))
+
+(setq   inhibit-compacting-font-caches t)  ; Don’t compact font caches during GC.
+(use-package files
+  :hook
+  (before-save . delete-trailing-whitespace) ; when save automatically delte whitespace
+  :custom
+  (make-backup-files nil)	 ; for backups filename~
+  (create-lockfiles nil)	 ; for backups .#filename - user@user
+  (auto-save-default nil)	 ;for backups #filename#
+  :custom-face
+  ;; (default ((t (:font "JetBrains Mono"))))
+  ;; (default ((t (:background "#181923" :font "Victor Mono" :weight semibold)))) ; font victor mono
+  (vertical-border ((t (:foreground "dark magenta"))))
+  (region ((t (:background "gray27" :foreground "#00bfff")))))

@@ -7,13 +7,6 @@
 			     ("gnu" . "http://elpa.gnu.org/packages/")))
     (package-initialize)
   #+END_SRC
-* Backup
-  #+BEGIN_SRC emacs-lisp
-    (setq make-backup-files nil
-	  auto-save-default nil
-	  create-lockfiles nil)
-
-  #+END_SRC
 * Window
 #+BEGIN_SRC emacs-lisp
   (setq frame-title-format nil)
@@ -56,22 +49,22 @@
 * use package
 #+BEGIN_SRC emacs-lisp
   (unless package-archive-contents
-  (package-refresh-contents))
+    (package-refresh-contents))
 
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+  ;; Initialize use-package on non-Linux platforms
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package))
   (require 'use-package)
-  (setq use-package-always-ensure t)
+
 #+END_SRC
 * command log mode
 #+begin_src emacs-lisp
-(use-package command-log-mode
-  :ensure t
-  :config
-  (global-command-log-mode t)
-  :init
-  (add-hook 'after-init-hook 'clm/open-command-log-buffer))
+  (use-package command-log-mode
+    :ensure t
+    :config
+    (global-command-log-mode t)
+    :init
+    (add-hook 'after-init-hook 'clm/open-command-log-buffer))
 #+end_src
 * counsel, ivy and swiper
   #+BEGIN_SRC emacs-lisp
@@ -452,9 +445,8 @@
                                 (?\' . ?\'))))
 #+end_src
 
-
-* drag stuff
-#+begin_src emacs-lisp :tangle ./init.el
+** drag stuff
+#+begin_src emacs-lisp
   (use-package drag-stuff
     :ensure t
     :hook ((prog-mode org-mode) . drag-stuff-mode )
@@ -462,8 +454,53 @@
     ("C-M-j" . drag-stuff-down)
     ("C-M-k" . drag-stuff-up))
 #+end_src
-* delete selection
-#+begin_src emacs-lisp :tangle ./init.el
-(use-package delsel
-  :hook (after-init . delete-selection-mode))
+** delete selection
+#+begin_src emacs-lisp
+  (use-package delsel
+    :hook (after-init . delete-selection-mode))
+#+end_src
+
+** backups and trailing whispace
+- font [[https://rubjo.github.io/victor-mono/][victor mono]]
+- font [[https://github.com/JetBrains/JetBrainsMono][jetbrains]]
+#+begin_src emacs-lisp
+  (setq   inhibit-compacting-font-caches t)  ; Don’t compact font caches during GC.
+  (use-package files
+    :hook
+    (before-save . delete-trailing-whitespace) ; when save automatically delte whitespace
+    :custom
+    (make-backup-files nil)	 ; for backups filename~
+    (create-lockfiles nil)	 ; for backups .#filename - user@user
+    (auto-save-default nil)	 ;for backups #filename#
+    :custom-face
+    (default ((t (:font "JetBrains Mono"))))
+    (vertical-border ((t (:foreground "dark magenta"))))
+    (region ((t (:background "gray27" :foreground "#00bfff")))))
+      #+end_src
+** ligatures
+- [[https://github.com/mickeynp/ligature.el][ligature]]
+#+begin_src emacs-lisp
+  (load-file "~/.youtube.d/ligature.el-master/ligature.el")
+  (use-package ligature
+    :hook (prog-mode .  ligature-mode)
+    :config
+    ;; Enable the "www" ligature in every possible major mode
+    (ligature-set-ligatures 't '("www"))
+    ;; Enable traditional ligature support in eww-mode, if the
+    ;; `variable-pitch' face supports it
+    (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+    ;; Enable all Cascadia Code ligatures in programming modes
+    (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                         "\\\\" "://")))
 #+end_src
