@@ -1,0 +1,5 @@
+;;; -*- coding: utf-8; mode: lisp-data -*-
+(("/home/covid-19/.youtube.d/"
+  (dired-filename . "/home/covid-19/.youtube.d/init.el"))
+ ("/home/covid-19/.youtube.d/init.org" . 15830)
+ ("/home/covid-19/.youtube.d/App.jsx" . 607))

@@ -404,6 +404,51 @@
 #+end_src
 
 * edit code
+** ligatures
+- [[https://github.com/mickeynp/ligature.el][ligature]]
+#+begin_src emacs-lisp
+  (load-file "~/.youtube.d/ligature.el-master/ligature.el")
+  (use-package ligature
+    :hook (prog-mode .  ligature-mode)
+    :config
+    ;; Enable the "www" ligature in every possible major mode
+    (ligature-set-ligatures 't '("www"))
+    ;; Enable traditional ligature support in eww-mode, if the
+    ;; `variable-pitch' face supports it
+    (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+    ;; Enable all Cascadia Code ligatures in programming modes
+    (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                         "\\\\" "://")))
+#+end_src
+
+** backups and trailing whispace
+- font [[https://rubjo.github.io/victor-mono/][victor mono]]
+- font [[https://github.com/JetBrains/JetBrainsMono][jetbrains]]
+#+begin_src emacs-lisp
+  (setq   inhibit-compacting-font-caches t)  ; Don’t compact font caches during GC.
+  (use-package files
+    :hook
+    (before-save . delete-trailing-whitespace) ; when save automatically delte whitespace
+    :custom
+    (make-backup-files nil)	 ; for backups filename~
+    (create-lockfiles nil)	 ; for backups .#filename - user@user
+    (auto-save-default nil)	 ;for backups #filename#
+    :custom-face
+    (default ((t (:font "JetBrains Mono"))))
+    (vertical-border ((t (:foreground "dark magenta"))))
+    (region ((t (:background "gray27" :foreground "#00bfff")))))
+      #+end_src
 ** undo tree
 #+begin_src emacs-lisp
 (use-package undo-tree
@@ -436,66 +481,6 @@
                                 (?\' . ?\'))))
 #+end_src
 
-** drag stuff
-#+begin_src emacs-lisp
-  (use-package drag-stuff
-    :ensure t
-    :hook ((prog-mode org-mode) . drag-stuff-mode )
-    :bind
-    ("C-M-j" . drag-stuff-down)
-    ("C-M-k" . drag-stuff-up))
-#+end_src
-** delete selection
-#+begin_src emacs-lisp
-  (use-package delsel
-    :hook (after-init . delete-selection-mode))
-#+end_src
-
-** backups and trailing whispace
-- font [[https://rubjo.github.io/victor-mono/][victor mono]]
-- font [[https://github.com/JetBrains/JetBrainsMono][jetbrains]]
-#+begin_src emacs-lisp
-  (setq   inhibit-compacting-font-caches t)  ; Don’t compact font caches during GC.
-  (use-package files
-    :hook
-    (before-save . delete-trailing-whitespace) ; when save automatically delte whitespace
-    :custom
-    (make-backup-files nil)	 ; for backups filename~
-    (create-lockfiles nil)	 ; for backups .#filename - user@user
-    (auto-save-default nil)	 ;for backups #filename#
-    :custom-face
-    (default ((t (:font "JetBrains Mono"))))
-    (vertical-border ((t (:foreground "dark magenta"))))
-    (region ((t (:background "gray27" :foreground "#00bfff")))))
-      #+end_src
-** ligatures
-- [[https://github.com/mickeynp/ligature.el][ligature]]
-#+begin_src emacs-lisp
-  (load-file "~/.youtube.d/ligature.el-master/ligature.el")
-  (use-package ligature
-    :hook (prog-mode .  ligature-mode)
-    :config
-    ;; Enable the "www" ligature in every possible major mode
-    (ligature-set-ligatures 't '("www"))
-    ;; Enable traditional ligature support in eww-mode, if the
-    ;; `variable-pitch' face supports it
-    (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-    ;; Enable all Cascadia Code ligatures in programming modes
-    (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                         ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                         "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                         "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                         "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                         "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                         "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                         "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                         ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                         "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                         "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                         "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                         "\\\\" "://")))
-#+end_src
-
 ** rainbow
 *** highlight parentheses
 #+begin_src emacs-lisp
@@ -514,4 +499,40 @@
     :ensure t
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+#+end_src
+** delete selection
+#+begin_src emacs-lisp
+  (use-package delsel
+    :hook (after-init . delete-selection-mode))
+#+end_src
+
+** drag stuff
+#+begin_src emacs-lisp
+  (use-package drag-stuff
+    :ensure t
+    :hook ((prog-mode org-mode) . drag-stuff-mode )
+    :bind
+    ("C-M-j" . drag-stuff-down)
+    ("C-M-k" . drag-stuff-up))
+#+end_src
+
+** cursor
+*** cursor hide
+#+begin_src emacs-lisp
+  (setq make-pointer-invisible t)         ; hide cursor when writing
+#+end_src
+*** save place
+- save the cursor position whe you edit any file
+#+begin_src emacs-lisp
+  (use-package saveplace
+    :init
+    (save-place-mode +1)
+    :config
+    (setq-default save-place-file "~/.youtube.d/places"))
+#+end_src
+** auto revert
+- Cuando editamos el mismo archivo al mismo tiempo en otro editor automaticamente se reflejaran los cambios en emacs o en otro editor
+#+begin_src emacs-lisp
+  (use-package autorevert
+    :hook (after-init . global-auto-revert-mode))
 #+end_src

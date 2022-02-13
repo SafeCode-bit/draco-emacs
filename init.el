@@ -322,6 +322,43 @@
   (setq js2-strict-inconsistent-return-warning t)
   (setq js2-strict-missing-semi-warning t))
 
+(load-file "~/.youtube.d/ligature.el-master/ligature.el")
+(use-package ligature
+  :hook (prog-mode .  ligature-mode)
+  :config
+  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable traditional ligature support in eww-mode, if the
+  ;; `variable-pitch' face supports it
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  ;; Enable all Cascadia Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "\\\\" "://")))
+
+(setq   inhibit-compacting-font-caches t)  ; Don’t compact font caches during GC.
+(use-package files
+  :hook
+  (before-save . delete-trailing-whitespace) ; when save automatically delte whitespace
+  :custom
+  (make-backup-files nil)	 ; for backups filename~
+  (create-lockfiles nil)	 ; for backups .#filename - user@user
+  (auto-save-default nil)	 ;for backups #filename#
+  :custom-face
+  (default ((t (:font "JetBrains Mono"))))
+  (vertical-border ((t (:foreground "dark magenta"))))
+  (region ((t (:background "gray27" :foreground "#00bfff")))))
+
 (use-package undo-tree
     :config
     (global-undo-tree-mode +1)
@@ -346,6 +383,23 @@
                               (?\< . ?\>)
                               (?\' . ?\'))))
 
+(use-package highlight-parentheses
+  :ensure t
+  :hook
+  ((prog-mode org-mode) . highlight-parentheses-mode)
+  :config
+  (setq highlight-parentheses-colors '("green" "gold" "red" "medium spring green" "cyan" "dark orange" "deep pink"))
+  :custom-face
+  (highlight-parentheses-highlight ((t (:weight bold)))))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package delsel
+  :hook (after-init . delete-selection-mode))
+
 (use-package drag-stuff
   :ensure t
   :hook ((prog-mode org-mode) . drag-stuff-mode )
@@ -353,59 +407,13 @@
   ("C-M-j" . drag-stuff-down)
   ("C-M-k" . drag-stuff-up))
 
-(use-package delsel
-  :hook (after-init . delete-selection-mode))
+;;(setq make-pointer-invisible t)         ; hide cursor when writing
 
-(setq   inhibit-compacting-font-caches t)  ; Don’t compact font caches during GC.
-(use-package files
-  :hook
-  (before-save . delete-trailing-whitespace) ; when save automatically delte whitespace
-  :custom
-  (make-backup-files nil)	 ; for backups filename~
-  (create-lockfiles nil)	 ; for backups .#filename - user@user
-  (auto-save-default nil)	 ;for backups #filename#
-  :custom-face
-  (default ((t (:font "JetBrains Mono"))))
-  (vertical-border ((t (:foreground "dark magenta"))))
-  (region ((t (:background "gray27" :foreground "#00bfff")))))
-
-(load-file "~/.youtube.d/ligature.el-master/ligature.el")
-(use-package ligature
-  :hook (prog-mode .  ligature-mode)
+(use-package saveplace
+  :init
+  (save-place-mode +1)
   :config
-  ;; Enable the "www" ligature in every possible major mode
-  (ligature-set-ligatures 't '("www"))
-  ;; Enable traditional ligature support in eww-mode, if the
-  ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
-  ;; Enable all Cascadia Code ligatures in programming modes
-  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                       "\\\\" "://")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(highlight-parentheses rainbow-delimiters yasnippet use-package undo-tree rjsx-mode prettier magit lsp-mode keycast ivy-posframe hydra git-gutter flycheck emmet-mode drag-stuff doom-themes doom-modeline counsel company-box command-log-mode blamer ace-window)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:font "JetBrains Mono"))))
- '(blamer-face ((t :foreground "#7a88cf" :background nil :height 115 :italic t)))
- '(region ((t (:background "gray27" :foreground "#00bfff"))))
- '(show-paren-match ((t (:background "none" :foreground "red"))))
- '(vertical-border ((t (:foreground "dark magenta")))))
+  (setq-default save-place-file "~/.youtube.d/places"))
+
+(use-package autorevert
+  :hook (after-init . global-auto-revert-mode))
