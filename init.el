@@ -53,12 +53,12 @@
   :init
   (ivy-mode 1)
   :bind (("C-s" . swiper)
-	 ("C-x b" . counsel-switch-buffer)
-	 :map ivy-minibuffer-map
-	 ("TAB" . ivy-alt-done)
-	 ("M-j" . ivy-next-line)
-	 ("M-k" . ivy-previous-line)
-	 ("C-d" . ivy-switch-buffer-kill))
+         ("C-x b" . counsel-switch-buffer)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("M-j" . ivy-next-line)
+         ("M-k" . ivy-previous-line)
+         ("C-d" . ivy-switch-buffer-kill))
   :custom
   (ivy-use-virtual-buffers t)
   (ivy-truncate-lines t)
@@ -68,23 +68,21 @@
   (enable-recursive-minibuffers t))
 
 (use-package counsel
-  ;;      :diminish
   :after ivy
   :bind
-  (("C-x f" . counsel-recentf))
+  (("C-x f" . counsel-recentf)
+   ("M-[" . counsel-yank-pop)
+   ("C-M-l" . avy-goto-line))
   :config (counsel-mode 1))
 
-
 (use-package swiper
-  ;;      :diminish
   :after ivy)
 
 (use-package ivy-posframe
-  ;;      :diminish
   :after ivy
   :custom
   (ivy-posframe-width 70)
-  (ivy-posframe-height 25)
+  (ivy-posframe-height 15)
   (ivy-posframe-border-width 4)
   :config
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
@@ -127,12 +125,6 @@
         org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-src-preserve-indentation nil))
-
-(use-package undo-tree
-    :config
-    (global-undo-tree-mode +1)
-    (setq undo-tree-visualizer-timestamps t
-          undo-tree-visualizer-diff nil))
 
 (use-package hydra)
   (define-prefix-command 'hydra-map)
@@ -330,6 +322,12 @@
   (setq js2-strict-inconsistent-return-warning t)
   (setq js2-strict-missing-semi-warning t))
 
+(use-package undo-tree
+    :config
+    (global-undo-tree-mode +1)
+    (setq undo-tree-visualizer-timestamps t
+          undo-tree-visualizer-diff nil))
+
 (use-package paren
   :init
   (show-paren-mode 1)
@@ -367,7 +365,47 @@
   (create-lockfiles nil)	 ; for backups .#filename - user@user
   (auto-save-default nil)	 ;for backups #filename#
   :custom-face
-  ;; (default ((t (:font "JetBrains Mono"))))
-  ;; (default ((t (:background "#181923" :font "Victor Mono" :weight semibold)))) ; font victor mono
+  (default ((t (:font "JetBrains Mono"))))
   (vertical-border ((t (:foreground "dark magenta"))))
   (region ((t (:background "gray27" :foreground "#00bfff")))))
+
+(load-file "~/.youtube.d/ligature.el-master/ligature.el")
+(use-package ligature
+  :hook (prog-mode .  ligature-mode)
+  :config
+  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable traditional ligature support in eww-mode, if the
+  ;; `variable-pitch' face supports it
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  ;; Enable all Cascadia Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                       "\\\\" "://")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(highlight-parentheses rainbow-delimiters yasnippet use-package undo-tree rjsx-mode prettier magit lsp-mode keycast ivy-posframe hydra git-gutter flycheck emmet-mode drag-stuff doom-themes doom-modeline counsel company-box command-log-mode blamer ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:font "JetBrains Mono"))))
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 115 :italic t)))
+ '(region ((t (:background "gray27" :foreground "#00bfff"))))
+ '(show-paren-match ((t (:background "none" :foreground "red"))))
+ '(vertical-border ((t (:foreground "dark magenta")))))

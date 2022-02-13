@@ -1,6 +1,6 @@
 #+AUTHOR: https://github.com/SafeCode-bit/draco-emacs
 
-* Package
+* Package Repository
   #+BEGIN_SRC emacs-lisp
     (require 'package)
     (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -46,7 +46,7 @@
    (column-number-mode -1)
 
  #+END_SRC
-* use package
+* package manager
 #+BEGIN_SRC emacs-lisp
   (unless package-archive-contents
     (package-refresh-contents))
@@ -73,12 +73,12 @@
       :init
       (ivy-mode 1)
       :bind (("C-s" . swiper)
-	     ("C-x b" . counsel-switch-buffer)
-	     :map ivy-minibuffer-map
-	     ("TAB" . ivy-alt-done)
-	     ("M-j" . ivy-next-line)
-	     ("M-k" . ivy-previous-line)
-	     ("C-d" . ivy-switch-buffer-kill))
+             ("C-x b" . counsel-switch-buffer)
+             :map ivy-minibuffer-map
+             ("TAB" . ivy-alt-done)
+             ("M-j" . ivy-next-line)
+             ("M-k" . ivy-previous-line)
+             ("C-d" . ivy-switch-buffer-kill))
       :custom
       (ivy-use-virtual-buffers t)
       (ivy-truncate-lines t)
@@ -88,32 +88,28 @@
       (enable-recursive-minibuffers t))
 
     (use-package counsel
-      ;;      :diminish
       :after ivy
       :bind
-      (("C-x f" . counsel-recentf))
+      (("C-x f" . counsel-recentf)
+       ("M-[" . counsel-yank-pop)
+       ("C-M-l" . avy-goto-line))
       :config (counsel-mode 1))
 
-
     (use-package swiper
-      ;;      :diminish
       :after ivy)
-
   #+END_SRC
 * ivy posframe
-  #+BEGIN_SRC emacs-lisp
-    (use-package ivy-posframe
-      ;;      :diminish
-      :after ivy
-      :custom
-      (ivy-posframe-width 70)
-      (ivy-posframe-height 25)
-      (ivy-posframe-border-width 4)
-      :config
-      (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-      (ivy-posframe-mode 1))
-
-     #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-posframe
+    :after ivy
+    :custom
+    (ivy-posframe-width 70)
+    (ivy-posframe-height 15)
+    (ivy-posframe-border-width 4)
+    :config
+    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+    (ivy-posframe-mode 1))
+#+END_SRC
 * ace window
   #+BEGIN_SRC emacs-lisp
     (use-package ace-window
@@ -132,7 +128,6 @@
   (use-package avy
   :config
   (setq avy-keys '(?a ?b ?c ?d ?e ?f ?g ?h ?i ?j ?k ?l ?m ?n ?o ?p ?q ?r ?s ?t ?u ?v ?w ?x ?y ?z ?.)))
-
   #+END_SRC
 
 * doom theme
@@ -149,10 +144,10 @@
 
 * org
 ** src
-     #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-  #+END_SRC
+#+END_SRC
 ** org function
 #+begin_src emacs-lisp
 (defun org-setup ()
@@ -170,16 +165,6 @@
           org-src-fontify-natively t
           org-src-tab-acts-natively t
           org-src-preserve-indentation nil))
-
-#+end_src
-* undo tree
-#+begin_src emacs-lisp
-(use-package undo-tree
-    :config
-    (global-undo-tree-mode +1)
-    (setq undo-tree-visualizer-timestamps t
-          undo-tree-visualizer-diff nil))
-
 #+end_src
 * hydra
 #+begin_src emacs-lisp
@@ -418,9 +403,15 @@
     (setq js2-strict-missing-semi-warning t))
 #+end_src
 
-
-
 * edit code
+** undo tree
+#+begin_src emacs-lisp
+(use-package undo-tree
+    :config
+    (global-undo-tree-mode +1)
+    (setq undo-tree-visualizer-timestamps t
+          undo-tree-visualizer-diff nil))
+#+end_src
 ** paren match
 - en Emacs 28 biene por defecto activado
 #+begin_src emacs-lisp
@@ -503,4 +494,24 @@
                                          "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                                          "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                          "\\\\" "://")))
+#+end_src
+
+** rainbow
+*** highlight parentheses
+#+begin_src emacs-lisp
+  (use-package highlight-parentheses
+    :ensure t
+    :hook
+    ((prog-mode org-mode) . highlight-parentheses-mode)
+    :config
+    (setq highlight-parentheses-colors '("green" "gold" "red" "medium spring green" "cyan" "dark orange" "deep pink"))
+    :custom-face
+    (highlight-parentheses-highlight ((t (:weight bold)))))
+#+end_src
+*** rainbow delimiters
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+end_src
