@@ -407,7 +407,7 @@
   ("C-M-j" . drag-stuff-down)
   ("C-M-k" . drag-stuff-up))
 
-;;(setq make-pointer-invisible t)         ; hide cursor when writing
+(setq make-pointer-invisible t)         ; hide cursor when writing
 
 (use-package saveplace
   :init
@@ -417,3 +417,22 @@
 
 (use-package autorevert
   :hook (after-init . global-auto-revert-mode))
+
+(use-package dired
+  :custom
+  (dired-recursive-deletes 'always)
+  (dired-recursive-copies 'always)
+  (delete-by-moving-to-trash t)		  ; moving to trash of system
+  (global-auto-revert-non-file-buffers t) ; autorevert in dired when create files
+  (auto-revert-interval 1)				  ; work with auto-revet file buffer (up line)
+  :config
+  (setq dired-listing-switches "-alh --group-directories-first" ; show directory first
+        auto-save-list-file-prefix nil)	; not create directory .emacs.d/auto-save-list
+  :bind
+  (:map dired-mode-map
+        ("z"     . dired-hide-subdir)))
+
+(use-package all-the-icons-dired
+  :ensure t
+  :hook (dired-mode . all-the-icons-dired-mode)
+  :init (setq all-the-icons-dired-monochrome nil))

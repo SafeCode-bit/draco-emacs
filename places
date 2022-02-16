@@ -1,5 +1,7 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
 (("/home/covid-19/.youtube.d/"
-  (dired-filename . "/home/covid-19/.youtube.d/init.el"))
- ("/home/covid-19/.youtube.d/init.org" . 15830)
+  (dired-filename . "/home/covid-19/.youtube.d/."))
+ ("/home/covid-19/.youtube.d/init.org" . 16747)
+ ("/home/covid-19/.youtube.d/elpa/all-the-icons-dired-20211007.1729/all-the-icons-dired-autoloads.el" . 1170)
+ ("/home/covid-19/.youtube.d/app.py" . 21)
  ("/home/covid-19/.youtube.d/App.jsx" . 607))
