@@ -561,3 +561,23 @@
     :hook (dired-mode . all-the-icons-dired-mode)
     :init (setq all-the-icons-dired-monochrome nil))
 #+end_src
+
+* which key
+- [[https://github.com/justbur/emacs-which-key][which key]]
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :hook (after-init . which-key-mode)
+    :custom
+    (which-key-idle-delay 0.5))
+#+end_src
+* emoji
+#+begin_src emacs-lisp
+  (use-package emojify
+    :ensure t
+    :hook (after-init . global-emojify-mode)
+    :custom
+    (emojify-emoji-styles '(unicode)))
+  (global-set-key (kbd "C-c e") 'emojify-insert-emoji)
+
+#+end_src

@@ -436,3 +436,21 @@
   :ensure t
   :hook (dired-mode . all-the-icons-dired-mode)
   :init (setq all-the-icons-dired-monochrome nil))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(emojify which-key yasnippet use-package undo-tree rjsx-mode rainbow-delimiters prettier magit lsp-mode keycast ivy-posframe hydra highlight-parentheses git-gutter flycheck emmet-mode drag-stuff doom-themes doom-modeline counsel company-box command-log-mode blamer all-the-icons-dired ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:font "JetBrains Mono"))))
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 115 :italic t)))
+ '(highlight-parentheses-highlight ((t (:weight bold))) t)
+ '(region ((t (:background "gray27" :foreground "#00bfff"))))
+ '(show-paren-match ((t (:background "none" :foreground "red"))))
+ '(vertical-border ((t (:foreground "dark magenta")))))
