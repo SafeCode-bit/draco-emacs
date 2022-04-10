@@ -536,7 +536,38 @@
   (use-package autorevert
     :hook (after-init . global-auto-revert-mode))
 #+end_src
-
+** folding code
+ #+begin_src emacs-lisp
+  (use-package vimish-fold
+    :ensure t
+    :config
+    (vimish-fold-global-mode 1))
+  (global-set-key (kbd "M-s f") 'vimish-fold)
+  (global-set-key (kbd "M-s u") 'vimish-fold-delete)
+ #+end_src
+** dispaly line
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (add-hook 'prog-mode-hook #'toggle-indicate-empty-lines t)
+  (setq display-line-numbers-type 'visual)
+  (setq display-line-numbers-current-absolute nil)
+#+end_src
+** multiple cursor
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :ensure t
+    :bind
+    ("C-M-n" . mc/mark-next-like-this)
+    ("C-M-p" . mc/mark-previous-like-this)
+    ("M-s n" . mc/unmark-next-like-this)
+    ("M-s p" . mc/unmark-previous-like-this)
+    ("M-s s" . mc/mark-all-like-this)
+    ("M-s m" . mc/mark-all-like-this-dwim)
+    ("M-s SPC" . set-rectangular-region-anchor)
+    ("M-s l" . mc/insert-numbers)
+    ("M-s a" . mc/vertical-align)
+    ("M-s i" . mc/edit-lines))
+    #+end_src
 * dired
 ** dired main
 #+begin_src emacs-lisp
@@ -579,5 +610,4 @@
     :custom
     (emojify-emoji-styles '(unicode)))
   (global-set-key (kbd "C-c e") 'emojify-insert-emoji)
-
 #+end_src
