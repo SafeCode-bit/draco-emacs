@@ -142,21 +142,93 @@
      (after-init . doom-modeline-mode))
   #+END_SRC
 
+
 * org
-** src
-#+BEGIN_SRC emacs-lisp
-(require 'org-tempo)
-(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
-#+END_SRC
-** org function
+** org babel
+*** src block
 #+begin_src emacs-lisp
-(defun org-setup ()
-(org-indent-mode t))
+  (use-package org-tempo
+    :config
+    (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp :tangle ./init.el"))
+    (add-to-list 'org-structure-template-alist '("py" . "src python :results output"))
+    (add-to-list 'org-structure-template-alist '("js" . "src js :results output"))
+    (add-to-list 'org-structure-template-alist '("css" . "src css"))
+    (add-to-list 'org-structure-template-alist '("html" . "src js"))
+    (add-to-list 'org-structure-template-alist '("http" . "src restclient")))
+#+end_src
+*** org babel
+[[https:github.com/tkf/org-mode/tree/master/lisp][org babel list for default in emacs]]
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((sql . t)
+     (python . t)
+     (js . t)
+     (restclient . t)
+     ))
+   (setq org-babel-python-command "/usr/bin/python3")
+#+end_src
+
+** js
+#+begin_src js :results output
+    console.log("hi from org babel")
+  let numOne = 9
+  let numTwo = 88
+  function suma(numOne, numTwo) {
+      return numOne + numTwo
+  }
+  console.log(suma(numOne, numTwo))
+#+end_src
+
+#+RESULTS:
+: hi from org babel
+: 97
+** python
+#+begin_src python :results output
+  print("hello src block")
+
+  def suma(numOne, numTwo):
+        return numOne - numTwo
+  print(suma(8, 2))
+#+end_src
+
+#+RESULTS:
+: hello src block
+: 6
+** http
+#+begin_src restclient
+GET https://jsonplaceholder.typicode.com/posts
+#+end_src
+
+** resclient
+#+begin_src emacs-lisp
+  (use-package restclient
+    :ensure t
+    :functions hydra-restclient
+    :bind ("M-i r" . hydra-restclient/body)
+    :mode  "\\.http\\'"
+    :config
+    (with-eval-after-load 'hydra
+      (defhydra hydra-restclient (:hint nil)
+        "
+        [_q_] Run query    [_r_] Run - Info       [_i_] Info url
+        [_n_] Next query   [_p_] Previous query
+          "
+        ("q" restclient-http-send-current)
+        ("r" restclient-http-send-current-raw)
+        ("n" restclient-jump-next)
+        ("p" restclient-jump-prev)
+        ("i" restclient-show-info))
+      ))
+    #+end_src
+** org indent
+#+begin_src emacs-lisp
+  (use-package org-indent
+    :hook (org-mode . org-indent-mode))
 #+end_src
 ** org main
 #+begin_src emacs-lisp
   (use-package org
-    :hook (org-mode . org-setup)
     :custom					;
     (org-ellipsis " ▼")
     (org-hide-emphasis-markers t)
